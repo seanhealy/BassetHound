@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="bh.demo">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;content charset=utf-8" />
+		<title>BassetHound Demo</title>
+
+		<!-- Style-->
+<!-- 		<link href="/less/main.less" rel="stylesheet/less" type="text/css">
+		<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.4.1/less.min.js"></script> -->
+
+		<!-- Libs-->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="/vendor/node-uuid/uuid.js"></script>
+		<script src="/vendor/sugar.1.4.1.js"></script>
+
+		<script src="/brewed/BassetHound.js"></script>
+		<script src="/brewed/trackers/console.js"></script>
+		<script src="/brewed/trackers/KISSmetrics.js"></script>
+		<script src="/brewed/testHandlers/KISSmetrics.js"></script>
+
+		<!-- JS-->
+		<script src="/brewed/demo.js"></script>
+
+        <script type="text/javascript">
+            var _kmq = _kmq || [];
+            var _kmk = _kmk || 'ae9d18307ba9b78aa395d49f64b21402a4fd545b';
+            function _kms(u){
+                setTimeout(function(){
+                    var d = document, f = d.getElementsByTagName('script')[0],
+                    s = d.createElement('script');
+                    s.type = 'text/javascript'; s.async = true; s.src = u;
+                    f.parentNode.insertBefore(s, f);
+                }, 1);
+            }
+            _kms('//i.kissmetrics.com/i.js');
+            _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+        </script>
+	</head>
+	<body ng-controller="AppController" bh-test-class-list>
+		<img src="/otis.png" width="200">
+		<hr>
+		<input placeholder="name" ng-model="name">
+		<button
+			type="button"
+			ng-click="identifyUser()"
+			>Identify User</button>
+
+		<hr>
+		<button bh-track="clicked a button">A Button</button>
+
+		<hr>
+		<h4>Test One</h4>
+		<div bh-if="sample_test_one is case_one">Sample Test One - caseOne</div>
+		<div bh-if="sample_test_one is case_two">Sample Test One - caseTwo</div>
+
+		<h4>Test Two</h4>
+		<div bh-if="sample_test_two is case_one">Sample Test Two - caseOne</div>
+		<div bh-if="sample_test_two is case_two">Sample Test Two - caseTwo</div>
+	</body>
+</html>
+

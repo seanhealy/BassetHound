@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "Optimizely.js",
+  "sourceRoot": "../../src/trackers",
+  "sources": [
+    "Optimizely.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;CAAA,CAAA,CAAA,GAAA,CAAO,EACG,EAAD,EADyC,oBAAlD;CAEoB,UAAZ,IAAA;CACI,CAAM,EAAN,EAAA,MAAA;CAAA,CAEO,CAAA,EAAP,CAAA,EAAO,CAAC;CACQ,CAAoB,EAAhC,KAAiB,EAAN,CAAM,GAAjB;CAHJ,MAEO;CAFP,CAKiB,CAAA,GAAjB,EAAiB,CAAC,MAAlB;CALA,CASc,CAAA,EAAA,CAAd,GAAe,GAAf;CAXH,KACD;CAFR,EACS;CADT"
+}
