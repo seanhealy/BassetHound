@@ -59,14 +59,7 @@ BassetHound.factory 'BassetHound', ($rootScope, $q) ->
         if Object.isFunction delegateAction
             delegateAction(args...)
         else
-            console.warn "Delegate Doesn't respond to action."
-
-    _depricatedAction = (action, args...) ->
-        if Object.isFunction action
-            # console.warn "Call to depricated action."
-            action(args...)
-        else
-            console.error "Action does not exist."
+            console.error "Delegate Doesn't respond to action."
 
     # Register a BassetHound Tracker
     #
@@ -110,14 +103,16 @@ BassetHound.factory 'BassetHound', ($rootScope, $q) ->
     # Identify a User
     #
     # @param [String] Identifier
-    identifyUser = (metadata) ->
-        _callDelegate tracker.identifyUser, arguments... for tracker in _trackers
+    identifyUser = (identifier) ->
+        _callDelegate tracker.identifyUser, identifier for tracker in _trackers
 
     ###
     # Tests
     ###
 
     _storeTestState = (name, activeVariation) ->
+        console.log name, activeVariation
+        activeVariation = activeVariation.underscore().remove(/\W/g)
         _abTestStates[name] = activeVariation
         $rootScope.$broadcast "BassetHound::testStateResolved", { name, activeVariation }
 
@@ -127,15 +122,17 @@ BassetHound.factory 'BassetHound', ($rootScope, $q) ->
 
     registerTest = (name, variations) ->
         sanitizedName = name.underscore().remove(/\W/g)
-        _callDelegate _abTestHandler.registerTest, sanitizedName, variations
-        .then (activeVariation) ->
-            _storeTestState sanitizedName, activeVariation.underscore().remove(/\W/g)
+
+        registerTestPromise = _callDelegate(_abTestHandler.registerTest, sanitizedName, variations)
+        registerTestPromise.then (activeVariation) ->
+            _storeTestState sanitizedName, activeVariation
         , (error) ->
             console.error "Yuck!"
             if Object.isObject(variations)
-                _storeTestState sanitizedName, Object.keys(variations).first().underscore().remove(/\W/g)
+                _storeTestState sanitizedName, Object.keys(variations).first()
             else
-                _storeTestState sanitizedName, variations.first().underscore().remove(/\W/g)
+                _storeTestState sanitizedName, variations.first()
+
 
     publicActions = {
         # Debug
@@ -157,13 +154,9 @@ BassetHound.factory 'BassetHound', ($rootScope, $q) ->
 
         # AB Testing
         registerTest
-
-        # Legacy Actions
-        set: -> _depricatedAction @setUserProperty, arguments
-        identify: -> _depricatedAction @identifyUser, arguments
     }
 
-    window.AngularTunnels.BassetHound = publicActions
+    window.bh = publicActions
 
     return publicActions
 
@@ -177,24 +170,15 @@ BassetHound.directive 'bhTrack', (BassetHound) ->
         element.on 'click', ->
             BassetHound.track eventName
 
-BassetHound.directive 'bhViewed', (BassetHound) ->
-    return (scope, element, attrs) ->
-        eventName = ""
-
-        attrs.$observe 'bhViewed', (value) ->
-            eventName = value
-
-        element.on 'click', ->
-            BassetHound.track "Viewed #{eventName}"
-
 BassetHound.directive 'bhTestClassList', (BassetHound, $rootScope) ->
-    return (scope, element, attrs) ->
+    return ($scope, element, attrs) ->
         $rootScope.$on 'BassetHound::testStateResolved', (event, test) ->
+            console.log 'here', arguments
             element.addClass "bh-#{test.name}-#{test.activeVariation}"
 
 BassetHound.directive 'bhIf', (BassetHound, $rootScope) ->
-    return (scope, element, attrs) ->
-        element.hide()
+    return ($scope, element, attrs) ->
+        element.addClass 'ng-hide'
 
         attrs.$observe 'bhIf', (condition) ->
             if Object.isString condition
@@ -209,7 +193,7 @@ BassetHound.directive 'bhIf', (BassetHound, $rootScope) ->
 
                         if goalTestName == resolvedTestName
                             if goalTestVariation == resolvedTestVariation
-                                element.show()
+                                element.removeClass 'ng-hide'
                             else
                                 element.remove()
 

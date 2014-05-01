@@ -1,4 +1,4 @@
-angular.module 'BassetHound.testHandler.Optimizely', ['BassetHound']
+angular.module('BassetHound.testHandler.Optimizely', ['BassetHound'])
     .run (BassetHound, $q) ->
         BassetHound.setTestHandler
             name: "Optimizely"

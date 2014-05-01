@@ -1,13 +1,10 @@
-angular.module 'BassetHound.trackers.KISSmetrics', ['BassetHound']
+angular.module('BassetHound.trackers.KISSmetrics', ['BassetHound'])
     .run (BassetHound) ->
         BassetHound.registerTracker
             name: 'KISSmetrics'
 
             track: (eventName, metadata) ->
-                combinedMetadata = Object.extended(config.analytics_defaults)
-                    .clone()
-                    .merge(metadata)
-                _kmq.push ['record', eventName, combinedMetadata]
+                _kmq.push ['record', eventName]
 
             setUserProperty: (metadata) ->
                 _kmq.push ['set', metadata]

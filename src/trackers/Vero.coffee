@@ -1,4 +1,4 @@
-angular.module 'BassetHound.trackers.Vero', ['BassetHound']
+angular.module('BassetHound.trackers.Vero', ['BassetHound'])
     .run (BassetHound) ->
         BassetHound.registerTracker
             name: 'Vero'

@@ -1,4 +1,4 @@
-angular.module 'BassetHound.trackers.console', ['BassetHound']
+angular.module('BassetHound.trackers.console', ['BassetHound'])
 .run (BassetHound) ->
     BassetHound.registerTracker
         name: 'console'

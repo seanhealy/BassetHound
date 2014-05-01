@@ -1,4 +1,4 @@
-angular.module 'BassetHound.trackers.Optimizely', ['BassetHound']
+angular.module('BassetHound.trackers.Optimizely', ['BassetHound'])
     .run (BassetHound) ->
         BassetHound.registerTracker
             name: 'Optimizely'

@@ -1,4 +1,4 @@
-angular.module 'BassetHound.testHandler.KISSmetrics', ['BassetHound']
+angular.module('BassetHound.testHandler.KISSmetrics', ['BassetHound'])
     .run (BassetHound, $q) ->
         BassetHound.setTestHandler
             name: "KISSmetrics"
